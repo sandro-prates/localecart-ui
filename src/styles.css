@@ -32,7 +32,7 @@ button { cursor: pointer; }
 
 .field { width: 100%; height: 44px; border: 0; border-bottom: 1px solid #aaa99f; border-radius: 0; background: transparent; padding: 0 10px; font-size: .82rem; outline: none; }
 .field:focus { border-color: #5e6243; box-shadow: none; }
-.chip { white-space: nowrap; border: 0; border-bottom: 1px solid transparent; border-radius: 0; padding: 11px 8px 8px; font-size: .75rem; font-weight: 680; color: #77786f; }
+.chip { white-space: nowrap; border: 0; border-bottom: 1px solid transparent; border-radius: 0; padding: 11px 8px 8px; font-size: .75rem; font-weight: 680; color: #66675f; }
 .chip.active { border-color: #1b1c18; background: transparent; color: #1b1c18; }
 .variant { display: inline-flex; align-items: center; gap: 7px; border: 1px solid #b9b8ae; border-radius: 0; padding: 10px 14px; font-size: .78rem; font-weight: 680; }
 .variant.active { border-color: #626747; background: #e8eadf; color: #4f5436; }
