@@ -1,0 +1,8 @@
+import {createContext,useContext,useEffect,useMemo,useState,type ReactNode} from 'react'
+import {products} from '../data/products'
+export type Locale='en'|'pt'
+type CartItem={productId:string;quantity:number;variant:string}
+type StoreValue={locale:Locale;setLocale:(v:Locale)=>void;cart:CartItem[];add:(id:string,variant:string)=>void;update:(id:string,quantity:number)=>void;remove:(id:string)=>void;count:number;subtotal:number}
+const StoreContext=createContext<StoreValue|null>(null)
+export function StoreProvider({children}:{children:ReactNode}){const[locale,setLocale]=useState<Locale>('en');const[cart,setCart]=useState<CartItem[]>(()=>{try{return JSON.parse(localStorage.getItem('localecart-cart')??'[]') as CartItem[]}catch{return[]}});useEffect(()=>localStorage.setItem('localecart-cart',JSON.stringify(cart)),[cart]);const value=useMemo<StoreValue>(()=>({locale,setLocale,cart,add:(id,variant)=>setCart(items=>{const found=items.find(i=>i.productId===id&&i.variant===variant);return found?items.map(i=>i===found?{...i,quantity:i.quantity+1}:i):[...items,{productId:id,quantity:1,variant}]}),update:(id,quantity)=>setCart(items=>items.map(i=>i.productId===id?{...i,quantity}:i).filter(i=>i.quantity>0)),remove:id=>setCart(items=>items.filter(i=>i.productId!==id)),count:cart.reduce((sum,i)=>sum+i.quantity,0),subtotal:cart.reduce((sum,i)=>sum+(products.find(p=>p.id===i.productId)?.price??0)*i.quantity,0)}),[locale,cart]);return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>}
+export function useStore(){const value=useContext(StoreContext);if(!value)throw new Error('StoreProvider is missing');return value}
